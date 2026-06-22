@@ -1,0 +1,143 @@
+{
+  "packs_anniversaire": [
+    {
+      "id": "pack-anniversaire",
+      "name": "Pack Anniversaire",
+      "price": 90,
+      "priceFrequency": "pour le week-end",
+      "description": "2 enceintes JBL + un pack lumière + un microphone sans fil",
+      "capacity": "~50 personnes"
+    },
+    {
+      "id": "pack-anniversaire-vip",
+      "name": "Pack Anniversaire VIP",
+      "price": 120,
+      "priceFrequency": "pour le week-end",
+      "description": "2 enceintes JBL + un caisson + 2 packs lumières + 2 microphones sans fil",
+      "capacity": "~100 personnes"
+    }
+  ],
+  "packs_enceintes": [
+    {
+      "id": "pack-1",
+      "name": "Pack 1",
+      "price": 100,
+      "priceFrequency": "par jour",
+      "description": "JBL IRX 1300W x2 + Subwoofer 500W",
+      "power": "3100W",
+      "image": "/images/pack-1.webp"
+    },
+    {
+      "id": "pack-2",
+      "name": "Pack 2",
+      "price": 70,
+      "priceFrequency": "par jour",
+      "description": "JBL IRX 1300W x2",
+      "power": "2600W",
+      "image": "/images/pack-2.webp"
+    },
+    {
+      "id": "pack-3",
+      "name": "Pack 3",
+      "price": 60,
+      "priceFrequency": "par jour",
+      "description": "JBL IRX 1300W + Subwoofer 500W",
+      "power": "1800W",
+      "image": "/images/pack-3.webp"
+    },
+    {
+      "id": "pack-4",
+      "name": "Pack 4",
+      "price": 45,
+      "priceFrequency": "par jour",
+      "description": "Woodbrass 200W x2",
+      "power": "400W",
+      "image": "/images/pack-4.webp"
+    }
+  ],
+  "enceintes_individuelles": [
+    {
+      "id": "jbl-irx-1300w",
+      "name": "JBL IRX 1300W",
+      "price": 40,
+      "priceFrequency": "par jour",
+      "description": "Enceinte professionnelle haute puissance",
+      "power": "1300W",
+      "image": "/images/jbl.webp"
+    },
+    {
+      "id": "woodbrass-200w",
+      "name": "Woodbrass 200W",
+      "price": 25,
+      "priceFrequency": "par jour",
+      "description": "Enceinte compacte et polyvalente",
+      "power": "200W",
+      "image": "/images/woodbrass.webp"
+    }
+  ],
+  "supplements": [
+    {
+      "id": "mange-debout",
+      "name": "Mange Debout",
+      "price": 8,
+      "priceFrequency": "jour",
+      "description": "Loué avec ses housses noires",
+      "image": "/images/mange-debout.webp",
+      "icon": "utensils-crossed"
+    },
+    {
+      "id": "lumieres-ambiance",
+      "name": "Lumières d'ambiance",
+      "price": 15,
+      "priceFrequency": "jour",
+      "description": "Calibrée sur la musique",
+      "image": "/images/lumieres-ambiance.webp",
+      "icon": "lightbulb"
+    },
+    {
+      "id": "microphone",
+      "name": "Microphone",
+      "price": 20,
+      "priceFrequency": "jour",
+      "description": "Sans fil ou filaire selon les besoins",
+      "image": "/images/microphone.webp",
+      "icon": "mic"
+    },
+    {
+      "id": "machine-fumee",
+      "name": "Machine à fumée",
+      "price": 25,
+      "priceFrequency": "jour",
+      "description": "Liquide compris avec",
+      "image": "/images/machine-fumee.webp",
+      "icon": "wind"
+    },
+    {
+      "id": "videoprojecteur",
+      "name": "Vidéoprojecteur",
+      "price": 15,
+      "priceFrequency": "jour",
+      "description": "Avec câble HDMI",
+      "image": "/images/videoprojecteur.webp",
+      "icon": "projector"
+    },
+    {
+      "id": "boule-facettes",
+      "name": "Boule à facettes",
+      "price": 20,
+      "priceFrequency": "jour",
+      "description": "Avec projecteur LED",
+      "image": "/images/boule-facettes.webp",
+      "icon": "sparkles"
+    },
+    {
+      "id": "barnum",
+      "name": "Barnum",
+      "price": 250,
+      "priceFrequency": "week-end",
+      "description": "10x6m avec parois latérales",
+      "image": "/images/barnum.webp",
+      "icon": "tent"
+    }
+  ]
+}

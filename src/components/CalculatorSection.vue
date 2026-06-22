@@ -11,12 +11,15 @@
                   </div>
 
                   <!-- Config Display -->
-                  <div class="p-3 bg-dark-950 rounded-xl border border-gray-850 flex items-center justify-between text-xs">
-                      <div>
-                          <span class="text-gray-500 block">Formule active :</span>
-                          <span class="font-bold text-white">{{ selectedPackTitle }}</span>
+                  <div class="p-4 bg-dark-950 rounded-xl border border-gray-850 flex flex-col gap-3 text-xs">
+                      <div class="flex flex-col gap-2">
+                          <span class="font-bold text-white mb-1">Formule choisie :</span>
+                          <select v-model="internalPackSelect" class="w-full bg-dark-900 border border-gray-800 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-brand-500">
+                              <option value="none">Aucun pack (Matériel à la carte)</option>
+                              <option v-for="pack in availablePacks" :key="pack.name" :value="pack.name">{{ pack.name }} ({{ pack.price }}€)</option>
+                              <option v-if="isCustomPack" :value="selectedPackTitle">{{ selectedPackTitle }} ({{ basePrice }}€)</option>
+                          </select>
                       </div>
-                      <span class="text-xs text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-md font-bold">Base</span>
                   </div>
 
                   <!-- Addon switches -->
@@ -32,17 +35,33 @@
                   </div>
 
                   <!-- Dynamic Basket items from Tab 2 -->
-                  <div v-if="extrasList.length > 0" class="space-y-2">
-                      <span class="text-xs font-bold text-gray-400 block">Matériels supplémentaires ajoutés :</span>
-                      <div class="space-y-1.5">
-                          <div v-for="(item, idx) in extrasList" :key="idx" class="flex items-center justify-between p-2 bg-dark-950 rounded-lg text-[11px] border border-gray-850">
-                              <span class="text-gray-300">🎵 {{ item.name }}</span>
-                              <div class="flex items-center gap-2">
-                                  <span class="font-bold text-brand-400">+{{ item.price }}€</span>
-                                  <button @click="$emit('removeExtraItem', idx)" type="button" class="text-neon-pink font-bold focus:outline-none">X</button>
+                  <div class="space-y-3">
+                      <span class="text-xs font-bold text-gray-400 block">Matériels supplémentaires :</span>
+                      
+                      <div v-if="groupedExtras.length > 0" class="space-y-2 mb-4">
+                          <div v-for="group in groupedExtras" :key="group.name" class="flex items-center justify-between p-2.5 bg-dark-950 rounded-xl border border-gray-800 shadow-sm">
+                              <div class="flex items-center gap-2.5">
+                                  <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-neon-pink text-white font-black text-[13px] shadow-[0_0_10px_rgba(236,72,153,0.3)]">{{ group.count }}x</span>
+                                  <span class="text-gray-200 font-bold text-xs">{{ group.name }}</span>
+                              </div>
+                              <div class="flex items-center gap-3">
+                                  <span class="font-bold text-brand-400 text-xs">+{{ group.totalPrice }}€</span>
+                                  <button @click="$emit('removeExtraItem', group.firstIdx)" type="button" class="w-7 h-7 flex items-center justify-center rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all cursor-pointer">
+                                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
+                                  </button>
                               </div>
                           </div>
                       </div>
+
+                      <select v-model="selectedNewExtra" @change="addSelectedExtra" class="w-full bg-dark-950 border border-gray-800 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-brand-500">
+                          <option value="">+ Ajouter du matériel...</option>
+                          <optgroup label="Enceintes Individuelles">
+                              <option v-for="item in availableEnceintes" :key="item.name" :value="item">{{ item.name }} (+{{ item.price }}€)</option>
+                          </optgroup>
+                          <optgroup label="Suppléments & Options">
+                              <option v-for="item in availableSupplements" :key="item.name" :value="item">{{ item.name }} (+{{ item.price }}€)</option>
+                          </optgroup>
+                      </select>
                   </div>
 
                   <!-- Selector Zone -->
@@ -87,8 +106,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import equipmentData from '../data/equipment.json';
 
 const props = defineProps({
+  isPackActive: { type: Boolean, default: false },
   selectedPackTitle: { type: String, default: 'Pack Anniversaire' },
   basePrice: { type: Number, default: 99 },
   extrasList: { type: Array, default: () => [] },
@@ -96,7 +117,34 @@ const props = defineProps({
   hasDelivery: Boolean
 });
 
-const emit = defineEmits(['update:hasMicro', 'update:hasDelivery', 'removeExtraItem', 'submitForm']);
+const emit = defineEmits(['update:isPackActive', 'update:selectedPackTitle', 'update:basePrice', 'update:hasMicro', 'update:hasDelivery', 'removeExtraItem', 'addExtraItem', 'submitForm']);
+
+const isPackActive = computed({
+  get: () => props.isPackActive,
+  set: (val) => emit('update:isPackActive', val)
+});
+
+const availablePacks = equipmentData.packs_anniversaire;
+
+const isCustomPack = computed(() => {
+  return props.selectedPackTitle && !availablePacks.find(p => p.name === props.selectedPackTitle);
+});
+
+const internalPackSelect = computed({
+  get: () => props.isPackActive ? props.selectedPackTitle : 'none',
+  set: (val) => {
+     if (val === 'none') {
+         emit('update:isPackActive', false);
+     } else {
+         emit('update:isPackActive', true);
+         const pack = availablePacks.find(p => p.name === val);
+         if (pack) {
+             emit('update:selectedPackTitle', pack.name);
+             emit('update:basePrice', pack.price);
+         }
+     }
+  }
+});
 
 const hasMicro = computed({
   get: () => props.hasMicro,
@@ -108,16 +156,44 @@ const hasDelivery = computed({
   set: (val) => emit('update:hasDelivery', val)
 });
 
+const availableEnceintes = equipmentData.enceintes_individuelles;
+const availableSupplements = equipmentData.supplements;
+const selectedNewExtra = ref("");
+
+function addSelectedExtra() {
+    if (selectedNewExtra.value && selectedNewExtra.value.name) {
+        emit('addExtraItem', { name: selectedNewExtra.value.name, price: selectedNewExtra.value.price });
+        selectedNewExtra.value = "";
+    }
+}
+
+const groupedExtras = computed(() => {
+    const groups = {};
+    props.extrasList.forEach((item, idx) => {
+        if (!groups[item.name]) {
+            groups[item.name] = { name: item.name, price: item.price, count: 0, totalPrice: 0, firstIdx: idx };
+        }
+        groups[item.name].count++;
+        groups[item.name].totalPrice += item.price;
+        // Keep the largest index as firstIdx so removing removes the latest one added
+        groups[item.name].firstIdx = idx;
+    });
+    return Object.values(groups);
+});
+
 const selectedCity = ref('redon');
 const formDate = ref('');
 
 const totalPriceDisplay = computed(() => {
-  if (props.basePrice === 0) return "Sur Devis";
-  let total = props.basePrice;
+  if (!isPackActive.value && props.extrasList.length === 0) return "Sur Devis";
+  
+  let total = 0;
+  if (isPackActive.value) total += props.basePrice;
   if (hasMicro.value) total += 15;
   if (hasDelivery.value) total += 60;
   props.extrasList.forEach(item => total += item.price);
-  return `${total}€`;
+  
+  return total > 0 ? `${total}€` : "Sur Devis";
 });
 
 function handleSubmit() {

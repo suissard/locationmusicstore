@@ -60,10 +60,11 @@
 
                       <div class="text-center space-y-2">
                           <h2 class="text-xl font-bold tracking-wide gold-shimmer" style="font-family: 'Cinzel Decorative', serif; line-height: 1.4;">
-                              Pack "Fiançailles & Union"
+                              {{ equipmentData.packs_anniversaire[0].name }}
                           </h2>
-                          <p class="text-neutral-400 text-[11px] max-w-xs mx-auto">
-                              Acoustique d'exception et lumières tamisées pour votre cocktail ou dîner de mariage.
+                          <p class="text-neutral-400 text-[11px] max-w-xs mx-auto mt-2">
+                              {{ equipmentData.packs_anniversaire[0].description }}<br>
+                              <span class="text-amber-500 font-bold mt-1 inline-block">{{ equipmentData.packs_anniversaire[0].capacity }}</span>
                           </p>
                       </div>
 
@@ -158,10 +159,11 @@
 
                       <div class="text-center space-y-2">
                           <h2 class="text-xl font-bold tracking-wide neon-shimmer" style="font-family: 'Righteous', sans-serif; line-height: 1.4;">
-                              Pack "Anniversaire VIP"
+                              {{ equipmentData.packs_anniversaire[1].name }}
                           </h2>
-                          <p class="text-neutral-400 text-[11px] max-w-xs mx-auto">
-                              Des basses explosives et une ambiance festive dynamique pour danser toute la nuit.
+                          <p class="text-neutral-400 text-[11px] max-w-xs mx-auto mt-2">
+                              {{ equipmentData.packs_anniversaire[1].description }}<br>
+                              <span class="text-pink-500 font-bold mt-1 inline-block">{{ equipmentData.packs_anniversaire[1].capacity }}</span>
                           </p>
                       </div>
 
@@ -229,55 +231,41 @@
           </div>
 
           <!-- TAB 2: Catalogue detail -->
-          <div v-show="activeTab === 'catalogue'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <!-- Item 1 -->
-              <div class="bg-dark-900 border border-gray-800 rounded-xl p-4 flex flex-col justify-between">
-                  <div class="space-y-2">
-                      <div class="h-28 rounded-lg bg-dark-950 flex items-center justify-center text-gray-700 border border-gray-850">
-                          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"></rect><circle cx="12" cy="7" r="2"></circle><circle cx="12" cy="15" r="3"></circle></svg>
-                      </div>
-                      <h4 class="text-xs font-bold text-white uppercase tracking-wider">Enceinte active supplémentaire (500W)</h4>
-                      <p class="text-[11px] text-gray-400">Pour diffuser du son dans une deuxième pièce adjacente ou le cocktail.</p>
+          <div v-show="activeTab === 'catalogue'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div v-for="item in catalogueItems" :key="item.id" @click="addItem(item.name, item.price)" class="group relative rounded-xl overflow-hidden border border-gray-800 flex flex-col justify-end transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-brand-500/20 hover:border-brand-500/50 cursor-pointer min-h-[180px] sm:min-h-[220px]">
+                  
+                  <!-- Background Image -->
+                  <div class="absolute inset-0 bg-dark-950 flex items-center justify-center z-0 p-4 sm:p-6">
+                      <img v-if="item.image" :src="item.image" :alt="item.name" class="object-contain h-full w-full opacity-60 mix-blend-screen transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:translate-y-[-10px]" />
+                      <svg v-else class="w-16 h-16 opacity-30 transition-all duration-500 group-hover:scale-125 group-hover:opacity-60 group-hover:translate-y-[-10px] text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"></rect><circle cx="12" cy="7" r="2"></circle><circle cx="12" cy="15" r="3"></circle></svg>
                   </div>
-                  <div class="pt-3 mt-3 border-t border-gray-800 flex items-center justify-between text-xs">
-                      <span class="font-bold text-white">35€ <span class="text-gray-500 font-normal">/ we</span></span>
-                      <button @click="addItem('Enceinte active supp.', 35)" class="px-2.5 py-1.5 bg-brand-600/20 text-brand-300 font-bold rounded-lg border border-brand-500/20 hover:bg-brand-600 hover:text-white transition-all text-[10px] cursor-pointer">
-                          + Ajouter au devis
-                      </button>
-                  </div>
-              </div>
 
-              <!-- Item 2 -->
-              <div class="bg-dark-900 border border-gray-800 rounded-xl p-4 flex flex-col justify-between">
-                  <div class="space-y-2">
-                      <div class="h-28 rounded-lg bg-dark-950 flex items-center justify-center text-gray-700 border border-gray-850">
-                          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6M9 9h6v6"></path></svg>
-                      </div>
-                      <h4 class="text-xs font-bold text-white uppercase tracking-wider">Projecteur d'ambiance LED coloré</h4>
-                      <p class="text-[11px] text-gray-400">Créez une atmosphère de couleur fixe ou changeante contre les murs.</p>
-                  </div>
-                  <div class="pt-3 mt-3 border-t border-gray-800 flex items-center justify-between text-xs">
-                      <span class="font-bold text-white">15€ <span class="text-gray-500 font-normal">/ we</span></span>
-                      <button @click="addItem('Projecteur LED d\'ambiance', 15)" class="px-2.5 py-1.5 bg-brand-600/20 text-brand-300 font-bold rounded-lg border border-brand-500/20 hover:bg-brand-600 hover:text-white transition-all text-[10px] cursor-pointer">
-                          + Ajouter au devis
-                      </button>
-                  </div>
-              </div>
+                  <!-- Gradient Overlay -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-900/40 to-transparent z-0 pointer-events-none"></div>
 
-              <!-- Item 3 -->
-              <div class="bg-dark-900 border border-gray-800 rounded-xl p-4 flex flex-col justify-between">
-                  <div class="space-y-2">
-                      <div class="h-28 rounded-lg bg-dark-950 flex items-center justify-center text-gray-700 border border-gray-850">
-                          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  <!-- Content -->
+                  <div class="relative z-10 p-4 flex flex-col justify-end h-full mt-12 sm:mt-16">
+                      <div class="space-y-1 mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                          <h4 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider group-hover:text-brand-300 transition-colors">{{ item.name }}</h4>
+                          <p class="text-[10px] sm:text-[11px] text-gray-300 line-clamp-2 leading-relaxed">{{ item.description }}</p>
+                          <p v-if="item.power" class="text-[9px] sm:text-[10px] text-brand-400 font-bold">Puissance: {{ item.power }}</p>
                       </div>
-                      <h4 class="text-xs font-bold text-white uppercase tracking-wider">Machine à fumée lourde</h4>
-                      <p class="text-[11px] text-gray-400">Pour créer un tapis de nuage blanc au sol, effet féérique garanti.</p>
-                  </div>
-                  <div class="pt-3 mt-3 border-t border-gray-800 flex items-center justify-between text-xs">
-                      <span class="font-bold text-white">49€ <span class="text-gray-500 font-normal">/ we</span></span>
-                      <button @click="addItem('Machine à fumée lourde', 49)" class="px-2.5 py-1.5 bg-brand-600/20 text-brand-300 font-bold rounded-lg border border-brand-500/20 hover:bg-brand-600 hover:text-white transition-all text-[10px] cursor-pointer">
-                          + Ajouter au devis
-                      </button>
+
+                      <div class="pt-3 border-t border-gray-700/50 flex items-center justify-between text-xs">
+                          <span class="font-bold text-white text-sm sm:text-base">{{ item.price }}€ <span class="text-gray-400 font-normal text-[10px]">/ {{ item.priceFrequency }}</span></span>
+                          <div class="flex items-center gap-2" @click.stop>
+                              <div v-if="getItemCount(item.name) > 0" class="flex items-center bg-neon-pink rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.5)] overflow-hidden">
+                                  <button @click.stop="removeItem(item.name)" class="px-3 py-1 sm:py-1.5 hover:bg-pink-600 text-white font-black transition-colors cursor-pointer text-xs sm:text-sm">-</button>
+                                  <span class="text-xs sm:text-sm font-black text-white px-3 py-1 bg-black/20">
+                                      {{ getItemCount(item.name) }}
+                                  </span>
+                                  <button @click.stop="addItem(item.name, item.price)" class="px-3 py-1 sm:py-1.5 hover:bg-pink-600 text-white font-black transition-colors cursor-pointer text-xs sm:text-sm">+</button>
+                              </div>
+                              <button v-else @click.stop="addItem(item.name, item.price)" class="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-brand-600/80 backdrop-blur-sm text-white font-bold rounded-lg border border-brand-500/50 hover:bg-brand-500 hover:scale-105 transition-all text-[9px] sm:text-[10px] cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.3)]">
+                                  + Ajouter
+                              </button>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
@@ -301,9 +289,22 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue';
+import equipmentData from '../data/equipment.json';
 
-const emit = defineEmits(['selectPack', 'addItem']);
+const props = defineProps({
+  extrasList: { type: Array, default: () => [] }
+});
+
+const emit = defineEmits(['selectPack', 'addItem', 'removeItemByName']);
 const activeTab = ref('packs');
+
+const catalogueItems = computed(() => {
+  return [
+    ...equipmentData.packs_enceintes.map(item => ({ ...item, type: 'pack' })),
+    ...equipmentData.enceintes_individuelles.map(item => ({ ...item, type: 'enceinte' })),
+    ...equipmentData.supplements.map(item => ({ ...item, type: 'supplement' }))
+  ];
+});
 
 // Template refs
 const weddingCard = ref(null);
@@ -316,22 +317,22 @@ const weddingOptions = ref({ lights: false, smoke: false });
 const birthdayOptions = ref({ confetti: false, bubbles: false });
 
 const weddingPrice = computed(() => {
-  let total = 690;
+  let total = equipmentData.packs_anniversaire[0].price;
   if (weddingOptions.value.lights) total += 90;
   if (weddingOptions.value.smoke) total += 120;
   return total;
 });
 
 const birthdayPrice = computed(() => {
-  let total = 390;
+  let total = equipmentData.packs_anniversaire[1].price;
   if (birthdayOptions.value.confetti) total += 40;
   if (birthdayOptions.value.bubbles) total += 50;
   return total;
 });
 
 // Price Animators
-const displayedWeddingPrice = ref(690);
-const displayedBirthdayPrice = ref(390);
+const displayedWeddingPrice = ref(equipmentData.packs_anniversaire[0].price);
+const displayedBirthdayPrice = ref(equipmentData.packs_anniversaire[1].price);
 
 let weddingPriceInterval = null;
 watch(weddingPrice, (newPrice) => {
@@ -694,7 +695,7 @@ function triggerWeddingPurchase(event) {
       showToast("💍", "Félicitations !", "Votre pack mariage est réservé. Vive les mariés !", true);
   }, 1200);
 
-  let finalTitle = 'Pack "Fiançailles & Union"';
+  let finalTitle = equipmentData.packs_anniversaire[0].name;
   const opts = [];
   if (weddingOptions.value.lights) opts.push('Lumières');
   if (weddingOptions.value.smoke) opts.push('Fumée');
@@ -725,7 +726,7 @@ function triggerBirthdayPurchase(event) {
       showToast("🎂", "Joyeux Anniversaire !", "Votre pack VIP est réservé. Préparez la fête !", false);
   }, 1000);
 
-  let finalTitle = 'Pack "Anniversaire VIP"';
+  let finalTitle = equipmentData.packs_anniversaire[1].name;
   const opts = [];
   if (birthdayOptions.value.confetti) opts.push('Confettis');
   if (birthdayOptions.value.bubbles) opts.push('Mach. Bulles');
@@ -797,5 +798,13 @@ onUnmounted(() => {
 
 function addItem(name, price) {
   emit('addItem', { name, price });
+}
+
+function removeItem(name) {
+  emit('removeItemByName', name);
+}
+
+function getItemCount(name) {
+  return props.extrasList.filter(item => item.name === name).length;
 }
 </script>

@@ -1,0 +1,8 @@
+{
+  "welcomeMessage": "Besoin d'aide pour sonoriser ou éclairer votre événement ? Posez-moi vos questions !",
+  "defaultResponses": {
+    "Quels sont vos packs disponibles ?": "Nous proposons plusieurs formules adaptées à vos besoins :\n\n- **Pack Anniversaire (99€)** : Idéal pour les soirées privées jusqu'à 80 personnes (2 enceintes actives, pieds et câbles inclus).\n- **Pack Mariage (199€)** : Pour des soirées jusqu'à 150 personnes avec basses renforcées (2 enceintes haut de gamme, 1 caisson de basse puissant, régie DJ compacte).\n- **Pack Clubbing (299€)** : La formule ultime avec éclairages robotisés et machine à fumée.\n\n*Tous nos packs incluent le câblage complet et une explication claire pour l'installation !*",
+    "Proposez-vous la livraison ?": "Oui, tout à fait ! Nous livrons, installons et reprenons le matériel sur les secteurs de **Redon, Rennes, Nantes et La Baule**.\n\nL'option de livraison/installation complète est proposée au tarif fixe de **60€** pour garantir votre sérénité le jour J.",
+    "Comment réserver le matériel ?": "C'est très simple :\n1. Rendez-vous dans la section **Calculateur** ci-dessous.\n2. Choisissez vos options et votre secteur.\n3. Indiquez vos coordonnées et votre date.\n\nNous vous recontacterons sous 24h pour valider la disponibilité et finaliser la réservation."
+  }
+}
